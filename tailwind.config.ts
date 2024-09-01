@@ -22,8 +22,8 @@ const config: Config = {
       point: {
         DEFAULT: "#6979f8",
         light: "#e7e9fe",
-        yellow: "f8e969",
-        orange: "f8a269",
+        yellow: "#f8e969",
+        orange: "#f8a269",
       },
       background: "#fafafa",
       white: "#ffffff",
