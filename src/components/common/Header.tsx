@@ -4,13 +4,9 @@ import Link from "next/link";
 import React from "react";
 import Button from "./Button";
 import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 export default function Header() {
   const router = useRouter();
-  const { data: session, status } = useSession();
-  console.log(session);
-
   return (
     <header className="flex items-center h-[80px] w-full bg-[#fff] px-[10%]">
       <Link href="/" className="text-main text-2xl font-bold whitespace-nowrap">
@@ -21,14 +17,12 @@ export default function Header() {
           <Link href="/">홈</Link>
           <Link href="/chart">주가 목록</Link>
         </nav>
-        {session?.user ? (
-          <p>user</p>
-        ) : (
+        
           <div className="flex gap-5 ml-20">
             <Button
               text="회원가입"
               small
-              onClick={() => router.push("/auth/register")}
+              onClick={() => router.push("/auth/signup")}
             />
             <Button
               fill
@@ -37,7 +31,7 @@ export default function Header() {
               onClick={() => router.push("/auth/login")}
             />
           </div>
-        )}
+        
       </div>
     </header>
   );

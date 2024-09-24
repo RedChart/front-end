@@ -6,10 +6,9 @@ import { TextInput } from "@/components/common/TextInput";
 import Button from "@/components/common/Button";
 import { BsChatFill } from "react-icons/bs";
 import { useRouter } from "next/navigation";
-import { signIn } from "next-auth/react";
 import { userAxiosInstance } from "@/app/api/axios";
 
-export default function RegisterPage() {
+export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
@@ -17,6 +16,7 @@ export default function RegisterPage() {
 
   const router = useRouter();
 
+  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`;
   // 회원가입 api
   const userSignUpApi = async () => {
     try {
@@ -26,23 +26,13 @@ export default function RegisterPage() {
         password,
       });
       if (response.status === 200) {
-        console.log(response);
-        const result = await signIn("credentials", {
-          redirect: false,
-          username,
-          password,
-        });
-
-        if (result?.error) {
-          console.error(result.error);
-        } else {
-          router.push("/");
-        }
+        console.log("response", response);
+        setTimeout(() => {
+          router.push("/auth/login"); // 로그인 페이지로 리디렉션
+        }, 2000);
       }
     } catch (error) {
       console.log(error);
-    } finally {
-      console.log("finish");
     }
   };
 
@@ -127,6 +117,7 @@ export default function RegisterPage() {
             py-3
             whitespace-nowrap
             font-bold"
+              onClick={() => router.push(KAKAO_AUTH_URI)}
             >
               <BsChatFill className="w-4 h-4" />
               <span className="mt-0.5">카카오로 회원가입</span>

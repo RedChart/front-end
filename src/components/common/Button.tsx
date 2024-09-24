@@ -20,7 +20,7 @@ export default function Button({
     : "bg-white border border-solid border-main text-main";
 
   const buttonSize = small
-    ? "py-2 font-normal"
+    ? "py-1.5 font-normal "
     : "py-3 font-bold shadow-lg";
 
   return (

@@ -6,20 +6,18 @@ import { TextInput } from "@/components/common/TextInput";
 import Button from "@/components/common/Button";
 import { BsChatFill } from "react-icons/bs";
 import { useRouter, useSearchParams } from "next/navigation";
-import { signIn } from "next-auth/react";
+import { userAxiosInstance } from "@/app/api/axios";
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const router = useRouter();
 
-  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${
-    process.env.NEXT_PUBLIC_KAKAO_REST_KEY
-  }&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`;
-
+  const KAKAO_AUTH_URI = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.id === "username") {
@@ -27,22 +25,29 @@ export default function LoginPage() {
     } else setPassword(e.target.value);
   };
 
-  const handleLoginClick = () => {
+  const handleLoginClick = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsLoading(true);
+    setError(""); // 기존 에러 초기화
+
     try {
-      const data = signIn("credentials", { username, password });
-      console.log();
+      // 비동기 처리로 로그인 요청
+      const response = await userAxiosInstance.post(`/api/users/signin`, {
+        username,
+        password,
+      });
+      if (response.status === 200) {
+        console.log("response", response);
+          router.push("/");
+      }
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
   const handleKakaoLoginClick = () => {
     router.push(KAKAO_AUTH_URI);
   };
-  
 
   return (
     <div className="h-full grid place-items-center">
@@ -98,7 +103,7 @@ export default function LoginPage() {
         </form>
         <p>
           아직 회원이 아니신가요?{" "}
-          <Link href="/auth/register" className="text-main font-bold underline">
+          <Link href="/auth/signup" className="text-main font-bold underline">
             회원가입
           </Link>
         </p>
