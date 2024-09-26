@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -15,7 +15,9 @@ const AuthProvider = ({ children }: Props) => {
   return (
     <>
       {!isAuthPath && <Header />}
-      {children} 
+      <main className="w-full h-full flex min-h-screen flex-col justify-center px-[20%] items-center  py-11">
+        {children}
+      </main>
     </>
   );
 };
