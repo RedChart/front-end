@@ -80,7 +80,7 @@ export default function LoginPage() {
             />
           </div>
           <div className="mt-14 flex flex-col gap-2">
-            <Button fill text="로그인" isSubmit onClick={handleLoginClick} />
+            <Button text="로그인" isSubmit onClick={handleLoginClick} />
             <button
               className="
             flex

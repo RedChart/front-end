@@ -99,7 +99,6 @@ export default function SignUpPage() {
               개인정보처리방침 및 이용약관에 동의합니다.
             </label>
             <Button
-              fill
               text="회원가입"
               isSubmit
               onClick={handleRegisterSubmit}
