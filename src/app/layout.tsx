@@ -1,12 +1,7 @@
-"use client";
-
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/common/Header";
-import { usePathname } from "next/navigation";
 import Script from "next/script";
-import { SessionProvider } from "next-auth/react";
-import { useEffect } from "react";
+import AuthProvider from "@/providers/AuthProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +16,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = usePathname();
 
   return (
     <html lang="ko">
@@ -31,10 +25,7 @@ export default function RootLayout({
           integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
           crossOrigin="anonymous"
         ></Script>
-        <SessionProvider>
-          {!pathname.startsWith("/auth") && <Header />}
-          {children}
-        </SessionProvider>
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
